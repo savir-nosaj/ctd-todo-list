@@ -12,7 +12,7 @@ function App() {
       <p>{newTodo}</p>
       <ToDoList/>
     </div>
-  )
+  );
 }
 
 export default App
