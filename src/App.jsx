@@ -4,13 +4,25 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-  const [newTodo, setNewTodo] = useState("Example Text");
+  const [todoList, setTodoList] = useState([]);
+
+  function addTodo(title) {
+    const newTodo = {
+      id: Date.now(),
+      title: title
+    }
+    setTodoList([...todoList, newTodo]);
+  }
+
   return (
     <div>
       <h1>My Todos</h1>
-      <ToDoForm/>
-      <p>{newTodo}</p>
-      <ToDoList/>
+      <ToDoForm
+        onAddTodo = {addTodo}
+      />
+      <ToDoList
+        todoList = {todoList}
+      />
     </div>
   );
 }
