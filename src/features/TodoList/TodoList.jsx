@@ -1,4 +1,4 @@
-import ToDoListItem from "./ToDoListItem";
+import ToDoListItem from "./TodoListItem";
 
 function ToDoList({todoList, onCompletedTodo, onUpdateTodo}) {
     // var containing array of filtered items, whose onComplete prop, is set to false
