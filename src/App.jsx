@@ -1,5 +1,5 @@
-import ToDoForm from './ToDoForm';
-import ToDoList from './ToDoList';
+import ToDoForm from './features/TodoForm';
+import ToDoList from './features/TodoList/TodoList';
 import './App.css';
 import { useState } from 'react';
 
@@ -25,6 +25,17 @@ function App() {
     setTodoList(updatedTodos);
   }
 
+  // update the obj's title prop to updated value sent from ToDoListItem
+  function updateTodo(editedTodo) {
+    const updatedTodos = todoList.map((todo) => {
+      if(todo.id === editedTodo.id) {
+        return {...editedTodo};
+      }
+      return todo;
+    });
+    setTodoList(updatedTodos);
+  }
+
   return (
     <div>
       <h1>My Todos</h1>
@@ -34,6 +45,7 @@ function App() {
       <ToDoList
         todoList = {todoList}
         onCompletedTodo={onCompletedTodo}
+        onUpdateTodo={updateTodo}
       />
     </div>
   );
