@@ -1,5 +1,5 @@
-import ToDoForm from './features/ToDoForm';
-import ToDoList from './features/TodoList/ToDoList';
+import ToDoForm from './features/TodoForm';
+import ToDoList from './features/TodoList/TodoList';
 import './App.css';
 import { useEffect, useState } from 'react';
 
@@ -122,13 +122,9 @@ function App() {
       },
       body: JSON.stringify(payload)
     }
+    const originalList = todoList;
     try {
       setIsSaving(true);
-      setIsLoading(true);
-      const resp = await fetch(url, options);
-      if(!resp.ok) {
-        throw new Error(resp.message);
-      }
       const updatedTodos = todoList.map((todo) => {
         if(todo.id === id) {
           // add same item, but with isCompleted prop changed to true
@@ -136,13 +132,17 @@ function App() {
         }
         return todo;
       });
+      const resp = await fetch(url, options);
+      if(!resp.ok) {
+        throw new Error(resp.message);
+      }
       // updatedTodos (on re-render) will update array and store objects with prop isCompleted, then push to and update toDo list
       setTodoList(updatedTodos);
     } catch (error) {
+      setTodoList(originalList);
       setErrorMessage(error.message);
     } finally {
       setIsSaving(false);
-      setIsLoading(false);
     }
   }
 
@@ -175,6 +175,8 @@ function App() {
       },
       body: JSON.stringify(payload)
     }
+    const originalList = todoList;
+    setTodoList(updatedTodos);
 
     try {
       setIsSaving(true);
@@ -182,8 +184,9 @@ function App() {
       if(!resp.ok) {
         throw new Error(resp.message);
       }
-      setTodoList(updatedTodos);
+      
     } catch (error) {
+      setTodoList(originalList);
       console.log(error);
       setErrorMessage(`${error.message}. Reverting todo...`);
       const revertedTodos = todoList.map((todo) => {
