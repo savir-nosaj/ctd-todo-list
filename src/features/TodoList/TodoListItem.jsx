@@ -1,11 +1,15 @@
 import TextInputWithLabel from '../../shared/TextInputWithLabel';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 function ToDoListItem({todo, onCompletedTodo, onUpdateTodo}) {
     // when set to true, To-Do label in UL will change into input element, containing title as value
     const [isEditing, setIsEditing] = useState(false);
     // state will have todo title by default
     const [workingTitle, setWorkingTitle] = useState(todo.title);
+    // 
+    useEffect(() => {
+        setWorkingTitle(todo.title);
+    }, [todo.title]);
 
     // reset workingTitle state to default value (todo title)
     function handleCancel() {
@@ -63,6 +67,5 @@ function ToDoListItem({todo, onCompletedTodo, onUpdateTodo}) {
         </li>
     );
 }
-
 
 export default ToDoListItem
